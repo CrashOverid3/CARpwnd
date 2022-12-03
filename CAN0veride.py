@@ -13,8 +13,8 @@ import random
 import time
 import argparse
 
-punsfile = open('/home/noyb/Documents/CAN-BUS/CAN0veride/Openings/Puns.txt')
-ASCIIfile = open('/home/noyb/Documents/CAN-BUS/CAN0veride/Openings/ASCII.txt')
+punsfile = open('Openings/Puns.txt')
+ASCIIfile = open('Openings/ASCII.txt')
 uid = 0
 #Check if user has admin access in order to enable CAN interfaces.
 if getuid() > 1:
