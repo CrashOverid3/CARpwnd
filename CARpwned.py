@@ -36,19 +36,27 @@ def Opening(interface):
         if interface == False:
             userinput = input('There are no CAN interfaces Detected.  Enter an interface to start [vcan0, can0]:') #Make this setup real CAN someday
             if userinput == 'vcan0' or 'can0':
-                setupvcan(uid, interface=userinput)
+                setupvcan(uid, userinput)
+
             else:
                 quit()
         elif len(interface) > 1:
             userinput = input('Interface detected but it is down.  Do you want to start it? ['+interface[0]+']:')
             if userinput == 'y':
-                print('Setting interface state to UP')
+                print('Setting interface state to UP...')
+                time.sleep(0.5)
                 if uid == 1:
                     print('You need admin access to enable an interface!')
                     time.sleep(2)
                     quit()
                 else:
-                    subprocess.Popen('sudo ip link set up '+interface[0]+'',shell = True, stdout = subprocess.PIPE)
+                    subprocess.Popen('sudo ip link set '+interface[0]+' up',shell = True, stdout = subprocess.PIPE)
+                    if interface[0] == 'vcan0':
+                        print('ICSIM is still needed to make this virtual interface useful')
+                        userinput = input('Would you like to start ICSIM?: ')
+                        if userinput == 'y':
+                            startsim()
+                    return interface[0]
             else:
                 quit()
         else:
@@ -96,23 +104,29 @@ def setupvcan(uid, interface):
             subprocess.Popen('sudo modprobe can',shell = True, stdout = subprocess.PIPE)
             subprocess.Popen('sudo modprobe vcan',shell = True, stdout = subprocess.PIPE)
             subprocess.Popen('sudo ip link add dev '+interface+' type vcan',shell = True, stdout = subprocess.PIPE)
-            subprocess.Popen('sudo ip link set up '+interface+'',shell = True, stdout = subprocess.PIPE)
+            subprocess.Popen('sudo ip link set up'+interface+'',shell = True, stdout = subprocess.PIPE)
             print('ICSIM is still needed to make this virtual interface useful') #Possibly integrate ICSIM?
             userinput = input('Would you like to start ICSIM on vcan0?:')
             if userinput == 'y':
-                print('icsim start')
+                startsim()
                 return interface
             elif userinput == 'n':
                 print('Continueing with active but empty interface')
+                time.sleep(1)
                 return interface
             else:
                 print('please connect an active interface or select to start ICSIM to continue.')
                 quit()
-            time.sleep(2)
-            selectmod()
     else:
         quit()
     
+def startsim():
+    userinput = input('Enter ICSIM path from this directory ['+getcwd()+'/')
+    subprocess.Popen('./'+userinput+'/icsim &',shell = True, stdout = subprocess.PIPE)
+    subprocess.Popen('./'+userinput+'/controls &',shell = True, stdout = subprocess.PIPE)
+    print('ICSIM Started!')
+    time.sleep(1.5)
+
 def readif(interface, inputfile, outputfile):
     os.system('clear')
     print('Interface selected ['+interface+']')
@@ -179,7 +193,8 @@ else:
     outputfile = False
 #Check if inputs were parsed and determine flow of program
 Openingpuns()
-Opening(interface)
+interface = Opening(interface)
+print(interface)
 if module == False:
     selectmod(interface, inputfile, outputfile)
 elif module == 'Reader':
