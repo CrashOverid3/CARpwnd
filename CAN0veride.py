@@ -19,7 +19,6 @@ uid = 0
 #Check if user has admin access in order to enable CAN interfaces.
 if getuid() > 1:
     uid = 1
-else:
     print('*You need to run this as root for maximum funcionality*')
 time.sleep(1)
 #Opening Function for ASCII art and Puns
@@ -58,14 +57,14 @@ def detectif():
     ifstate = str(subprocess.Popen('ip link | grep -E "can.*DOWN"',shell = True, stdout = subprocess.PIPE).communicate())
     if ifname[6:10] == 'can0':
         output = [ifname[6:10]]
-        print('Interface Found!')
+        print('Interface can0 Found!')
         if ifstate[6:10] == 'can0':
             output.append(1)
         else:
              output.append(0)
     elif ifname[6:11] == 'vcan0':
         output = [ifname[6:11]]
-        print('Interface Found!')
+        print('Interface vcan0 Found!')
         if ifstate[6:11] == 'vcan0':
             output.append(1)
         else:
@@ -90,27 +89,38 @@ def setupvcan(uid):
         subprocess.Popen('sudo ip link add dev vcan0 type vcan',shell = True, stdout = subprocess.PIPE)
         subprocess.Popen('sudo ip link set up vcan0',shell = True, stdout = subprocess.PIPE)
         print('ICSIM is still needed to make this virtual interface useful') #Possibly integrate ICSIM?
+        userinput = input('Would you like to start ICSIM on vcan0?:')
+        if userinput == 'y':
+            print('icsim start')
+        else:
+            print('please connect an active interface or select to start ICSIM to continue.')
+            quit()
         time.sleep(2)
         selectmod()
 
-def readif(interface):
+def readif(interface, inputfile, outputfile):
     os.system('clear')
     print('Interface selected ['+interface+']')
     userinput = input('''
     Read Interface >
     ------------------------------------
         1: Write interface into file
-        2:
+        2: Output to terminal
         3:
         4:
         5: Return to Previous screen
     ------------------------------------
         (Add -h or --help for info on options)
     Selection:''')
-    if userinput == '5':
+    if userinput == '1':
+        print('Write to file')
+        print(str(inputfile))
+    elif userinput == '2':
+        print('write to terminal')
+    elif userinput == '5':
         selectmod(interface)
 #Main Program for yes
-def selectmod(interface):
+def selectmod(interface, inputfile, outputfile):
     os.system('clear')
     print('Interface Selected ['+interface+']')
     userinput = input('''
@@ -126,13 +136,13 @@ def selectmod(interface):
     if userinput == '1':
         print('Interface changing will be implimented soon')
     elif userinput == '2':
-        readif(interface[0])
+        readif(interface, inputfile, outputfile)
 
 #Check for arguments in case they want to not use menus because 1337 Hax0r
 parser = argparse.ArgumentParser()
 parser.add_argument('-M', '--Module', help = 'Select Program module to use', choices = ['Reader','Injector'])
-parser.add_argument('-o', '--Output', help = 'Output file into current directory ['+getcwd()+']')
-parser.add_argument('-i', '--Input', help = 'Input file from current directory ['+getcwd()+']')
+parser.add_argument('-o', '--Output', help = 'Output file into current directory ['+getcwd()+'/]')
+parser.add_argument('-i', '--Input', help = 'Input file from current directory ['+getcwd()+'/]')
 parser.add_argument('-I', '--Interface', help = 'Manually select CAN interface')
 args = parser.parse_args()
 #Set arguments to variables 
@@ -159,8 +169,8 @@ if interface == False:
     if interface == False:
         interface = setupvcan(uid)
 if module == False:
-    selectmod(interface)
+    selectmod(interface[0], inputfile, outputfile)
 elif module == 'Reader':
-    readif(interface)
+    readif(interface, inputfile, outputfile)
 else:
     print('other module chosen')
