@@ -72,12 +72,15 @@ def detectif():
              output.append(0)
     else:
         output = False #Leads to option of enabling CAN interface
+        if output == False:
+            print('Interface Not Found...')
+    time.sleep(1.5)
     return output #make it parse lines for command to check for interface? | Make it OS/command Agnostic?
 
 #Enable vcan0 interface. *requires admin access
 def setupvcan(uid):
     if uid == 1:
-        print('You need admin access to do this!')
+        print('You need admin access to enable an interface!')
         time.sleep(2)
         quit()
     else:
@@ -131,8 +134,8 @@ parser.add_argument('-M', '--Module', help = 'Select Program module to use', cho
 parser.add_argument('-o', '--Output', help = 'Output file into current directory ['+getcwd()+']')
 parser.add_argument('-i', '--Input', help = 'Input file from current directory ['+getcwd()+']')
 parser.add_argument('-I', '--Interface', help = 'Manually select CAN interface')
-
 args = parser.parse_args()
+#Set arguments to variables 
 if args.Interface:
     interface = args.Interface
 else:
@@ -149,14 +152,15 @@ if args.Output:
     outputfile = args.Output
 else:
     outputfile = False
-if not module == False:
-    print('Modulefound '+module)
-else:
-    print('nomodfound')
-    print(interface)
-    Openingpuns()
+#Check if inputs were parsed and determine flow of program
+Openingpuns()
+if interface == False:
+    interface = detectif()
+    if interface == False:
+        interface = setupvcan(uid)
+if module == False:
     selectmod(interface)
-
-
-
-
+elif module == 'Reader':
+    readif(interface)
+else:
+    print('other module chosen')
