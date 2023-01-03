@@ -98,7 +98,7 @@ def setupvcan(uid):
         time.sleep(2)
         selectmod()
 
-def readif(interface, inputfile, outputfile):
+def modreadif(interface, inputfile, outputfile):
     os.system('clear')
     print('Interface selected ['+interface+']')
     userinput = input('''
@@ -117,8 +117,17 @@ def readif(interface, inputfile, outputfile):
         print(str(inputfile))
     elif userinput == '2':
         print('write to terminal')
+        terminalreadif(interface, inputfile, outputfile)
     elif userinput == '5':
         selectmod(interface)
+
+def terminalreadif(interface, inputfile, outputfile):
+    os.system('clear')
+    time.sleep(1)
+    print('start')
+    subprocess.Popen('candump -e '+interface+'', shell=True)
+    print('done')
+    time.sleep(1)
 #Main Program for yes
 def selectmod(interface, inputfile, outputfile):
     os.system('clear')
@@ -136,7 +145,7 @@ def selectmod(interface, inputfile, outputfile):
     if userinput == '1':
         print('Interface changing will be implimented soon')
     elif userinput == '2':
-        readif(interface, inputfile, outputfile)
+        modreadif(interface, inputfile, outputfile)
 
 #Check for arguments in case they want to not use menus because 1337 Hax0r
 parser = argparse.ArgumentParser()
@@ -171,6 +180,6 @@ if interface == False:
 if module == False:
     selectmod(interface[0], inputfile, outputfile)
 elif module == 'Reader':
-    readif(interface, inputfile, outputfile)
+    modreadif(interface[0], inputfile, outputfile)
 else:
     print('other module chosen')
