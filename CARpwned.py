@@ -29,20 +29,34 @@ def Openingpuns():
     print(OpeningASCII(ASCIIfile))
     print(punsfile.readlines()[random.randrange(0,2)]) #Should make this check how many lines are in the file.
     time.sleep(1.5)
+
 def Opening(interface):
     if interface == False:
-        interface = detectif() #Set a tuple for the current (interface, state(True or False))
+        interface = detectif() #Set a tuple for the current (interface, state(Empty or False))
         if interface == False:
-            userinput = input('There are no CAN interfaces Detected.  Do you want to start one? [vcan0]:') #Make this setup real CAN someday
-            if userinput == 'y':
-                setupvcan(uid)
+            userinput = input('There are no CAN interfaces Detected.  Enter an interface to start [vcan0, can0]:') #Make this setup real CAN someday
+            if userinput == 'vcan0' or 'can0':
+                setupvcan(uid, userinput)
+
             else:
                 quit()
-        elif len(interface) > 2:
-            print('morethenone')
+        elif len(interface) > 1:
             userinput = input('Interface detected but it is down.  Do you want to start it? ['+interface[0]+']:')
             if userinput == 'y':
-                print('yescan')
+                print('Setting interface state to UP...')
+                time.sleep(0.5)
+                if uid == 1:
+                    print('You need admin access to enable an interface!')
+                    time.sleep(2)
+                    quit()
+                else:
+                    subprocess.Popen('sudo ip link set '+interface[0]+' up',shell = True, stdout = subprocess.PIPE)
+                    if interface[0] == 'vcan0':
+                        print('ICSIM is still needed to make this virtual interface useful')
+                        userinput = input('Would you like to start ICSIM?: ')
+                        if userinput == 'y':
+                            startsim()
+                    return interface[0]
             else:
                 quit()
         else:
@@ -77,26 +91,41 @@ def detectif():
     return output #make it parse lines for command to check for interface? | Make it OS/command Agnostic?
 
 #Enable vcan0 interface. *requires admin access
-def setupvcan(uid):
-    if uid == 1:
-        print('You need admin access to enable an interface!')
-        time.sleep(2)
-        quit()
-    else:
-        print('Starting Virtual CAN Interface...')
-        subprocess.Popen('sudo modprobe can',shell = True, stdout = subprocess.PIPE)
-        subprocess.Popen('sudo modprobe vcan',shell = True, stdout = subprocess.PIPE)
-        subprocess.Popen('sudo ip link add dev vcan0 type vcan',shell = True, stdout = subprocess.PIPE)
-        subprocess.Popen('sudo ip link set up vcan0',shell = True, stdout = subprocess.PIPE)
-        print('ICSIM is still needed to make this virtual interface useful') #Possibly integrate ICSIM?
-        userinput = input('Would you like to start ICSIM on vcan0?:')
-        if userinput == 'y':
-            print('icsim start')
-        else:
-            print('please connect an active interface or select to start ICSIM to continue.')
+def setupvcan(uid, interface):
+    if interface == False:
+        interface = input('Would you like to start a CAN interface?: [can0, vcan0, n]')
+    if interface == 'vcan0' or 'can0':
+        if uid == 1:
+            print('You need admin access to enable an interface!')
+            time.sleep(2)
             quit()
-        time.sleep(2)
-        selectmod()
+        else:
+            print('Starting Virtual CAN Interface...')
+            subprocess.Popen('sudo modprobe can',shell = True, stdout = subprocess.PIPE)
+            subprocess.Popen('sudo modprobe vcan',shell = True, stdout = subprocess.PIPE)
+            subprocess.Popen('sudo ip link add dev '+interface+' type vcan',shell = True, stdout = subprocess.PIPE)
+            subprocess.Popen('sudo ip link set up'+interface+'',shell = True, stdout = subprocess.PIPE)
+            print('ICSIM is still needed to make this virtual interface useful') #Possibly integrate ICSIM?
+            userinput = input('Would you like to start ICSIM on vcan0?:')
+            if userinput == 'y':
+                startsim()
+                return interface
+            elif userinput == 'n':
+                print('Continueing with active but empty interface')
+                time.sleep(1)
+                return interface
+            else:
+                print('please connect an active interface or select to start ICSIM to continue.')
+                quit()
+    else:
+        quit()
+    
+def startsim():
+    userinput = input('Enter ICSIM path from this directory ['+getcwd()+'/')
+    subprocess.Popen('./'+userinput+'/icsim &',shell = True, stdout = subprocess.PIPE)
+    subprocess.Popen('./'+userinput+'/controls &',shell = True, stdout = subprocess.PIPE)
+    print('ICSIM Started!')
+    time.sleep(1.5)
 
 def modreadif(interface, inputfile, outputfile):
     os.system('clear')
@@ -111,7 +140,7 @@ def modreadif(interface, inputfile, outputfile):
         5: Return to Previous screen
     ------------------------------------
         (Add -h or --help for info on options)
-    Selection:''')
+    Selection: ''')
     if userinput == '1':
         print('Write to file')
         print(str(inputfile))
@@ -141,7 +170,7 @@ def selectmod(interface, inputfile, outputfile):
         4:
         ------------------------------------
         (Add -h or --help for info on options)
-        Selection:''')
+        Selection: ''')
     if userinput == '1':
         print('Interface changing will be implimented soon')
     elif userinput == '2':
@@ -173,12 +202,10 @@ else:
     outputfile = False
 #Check if inputs were parsed and determine flow of program
 Openingpuns()
-if interface == False:
-    interface = detectif()
-    if interface == False:
-        interface = setupvcan(uid)
+interface = Opening(interface)
+print(interface)
 if module == False:
-    selectmod(interface[0], inputfile, outputfile)
+    selectmod(interface, inputfile, outputfile)
 elif module == 'Reader':
     modreadif(interface[0], inputfile, outputfile)
 else:
