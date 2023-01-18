@@ -12,13 +12,13 @@ from Modules.Reader import *
 #Set CANBUS Variables
 
 #Set terrible puns
-punsfile = open('Openings/Puns.txt')
-ASCIIfile = open('Openings/ASCII.txt')
+punsfile = open('Openings/Puns.txt','r')
+ASCIIfile = open('Openings/ASCII.txt','r')
 #Manual Overide for testing############
-#output='test.csv'
-#interface='socketcan'
-#channel='vcan0'
-#R2File.main(output, interface, channel)
+output='test.txt'
+interface='socketcan'
+channel='vcan0'
+R2File.main(output, interface, channel)
 #######################################
 
 
@@ -27,6 +27,12 @@ def main():
     print(punsfile.readlines()[random.randrange(0,2)]) #Should make this check how many lines are in the file.
     #print(ASCIIfile)
 
+def ListModules():
+    with open('Modules/Reader/__init__.py','r') as f:
+        print('Loaded Reader Modules: '+f.read()[10:])
+    with open('Modules/Injector/__init__.py','r') as f:
+        print('Loaded Injection Modules: '+f.read()[10:])
+        quit()    
 #Set and parse arguments for better scripting
 arguments = argparse.ArgumentParser()
 arguments.add_argument('-M', '--Module', help = 'Select program module to use.')
@@ -38,10 +44,6 @@ arguments.add_argument('-C', '--Channel', help = 'Manually select CAN Channel. E
 arguments = arguments.parse_args()
 #Check for ListModules argument and display before starting program
 if arguments.List:
-    with open('Modules/Reader/__init__.py','r') as f:
-        print('Loaded Reader Modules: '+f.read()[10:])
-    with open('Modules/Injector/__init__.py','r') as f:
-        print('Loaded Injection Modules: '+f.read()[10:])
-        quit()
+    ListModules()
 
 #main()

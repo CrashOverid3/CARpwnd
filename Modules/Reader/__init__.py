@@ -1,1 +1,1 @@
-__all__ = ["R2File"]
+__all__ = ["R2File","R2Terminal"]

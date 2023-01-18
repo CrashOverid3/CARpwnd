@@ -1,5 +1,4 @@
-#Written by Dade M. AKA CrashOveride
-#Find More information on what I am working on at https://www.crashoveride.info
+#Written for CARpwnd
 #This Module is designed to dump the CAN interface into various file formats
 
 #Import Modules
@@ -8,18 +7,21 @@ import can
 def main(output, interface, channel):  
     with can.ThreadSafeBus(interface=interface, channel=channel) as bus:
         logger = can.Logger(output)
+        PacketTotal = 0
         try:
             print('Dumping to '+output+'. Press Ctl+C to stop...')
             while True:        
                 logger(bus.recv())
+                PacketTotal = PacketTotal + 1
         except KeyboardInterrupt:
             print()
+            print(str(PacketTotal)+' Packets Recorded')
             print(str(can.io.canutils.CanutilsLogWriter.file_size(logger)/1024/1024)+' MegaBytes written to '+output)
             logger.stop()
             pass
     return()
-def desc(): #This can probably be done a better way
+def info(): #This can probably be done a better way
     desc='''
-    This Module dumps the CAN interface to whatever the output variable is set to
+    This Module dumps the CAN interface to whatever the output file is set to.
     '''
     return(desc)
