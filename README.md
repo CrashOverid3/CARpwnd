@@ -8,7 +8,7 @@ One of the main focuses with a "Do it all" is that it will infer certain things 
 In this repo there will be two packages.  One that has everything required baked in to allow for easy usage and one that splits all of the functions up so modifications can be made realy easily.
 
 TODO:
-Make it output read interfaces to terminal,
+Make it output read interfaces to terminal DONE,
 Make it output read interfaces to file DONE,
 make it allow for autosetup of normal can interface,
 impliment ICSIM?,
