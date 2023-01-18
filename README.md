@@ -8,9 +8,29 @@ One of the main focuses with a "Do it all" is that it will infer certain things 
 In this repo there will be two packages.  One that has everything required baked in to allow for easy usage and one that splits all of the functions up so modifications can be made realy easily.
 
 TODO:
-Make it read interfaces,
 Make it output read interfaces to terminal,
-Make it output read interfaces to file,
+Make it output read interfaces to file DONE,
 make it allow for autosetup of normal can interface,
 impliment ICSIM?,
 add real puns so I wont be so sad,
+add ASCII to opening,
+add injection modules,
+  inject by typing,
+  iject by replay,
+  discovery mode?,
+  DOS attack for funs,
+  
+add file converting module,
+add R2File rollover capabillity,
+fix argument parsing,
+Write standard for adding new modules,
+write some abstraction modules?,
+Complete README.md file with,
+  intro,
+  install,
+  quickstart,
+  configurations,
+  examples,
+test on windows,
+
+MAKE PUBLIC!!!
