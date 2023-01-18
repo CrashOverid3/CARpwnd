@@ -122,8 +122,8 @@ def setupvcan(uid, interface):
     
 def startsim():
     userinput = input('Enter ICSIM path from this directory ['+getcwd()+'/')
-    subprocess.Popen('./'+userinput+'/icsim &',shell = True, stdout = subprocess.PIPE)
-    subprocess.Popen('./'+userinput+'/controls &',shell = True, stdout = subprocess.PIPE)
+    subprocess.Popen('.'+getcwd()+userinput+'/icsim &',shell = True, stdout = subprocess.PIPE)
+    subprocess.Popen('.'+getcwd()+userinput+'/controls &',shell = True, stdout = subprocess.PIPE)
     print('ICSIM Started!')
     time.sleep(1.5)
 
