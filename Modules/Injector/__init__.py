@@ -1,1 +1,1 @@
-__all__ = ["InjFromFile", ""]
+__all__ = ["InjFromFile"]
