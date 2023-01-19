@@ -8,6 +8,7 @@ import random
 import argparse
 from Modules.Reader import *
 #from Modules.Injector import * 
+from os import listdir
 
 #Set globals of imported modules
 
@@ -18,9 +19,9 @@ from Modules.Reader import *
 punsfile = open('Openings/Puns.txt','r')
 ASCIIfile = open('Openings/ASCII.txt','r')
 #Manual Overide for testing############
-#output='test.txt'
-interface='socketcan'
-channel='vcan0'
+#output='test.csv'
+#interface='socketcan'
+#channel='vcan0'
 #R2File.main(output, interface, channel)
 #######################################
 
@@ -42,16 +43,23 @@ def main():
     globals()[str(module)].main(interface, channel)
 
 def ListModules():
-    with open('Modules/Reader/__init__.py','r') as f:
-        ReaderModules = f.read()
-        print('Loaded Reader Modules: '+ReaderModules[10:])
-        ReaderModules = ReaderModules[11:-1].replace('"', '').split(',')
-    with open('Modules/Injector/__init__.py','r') as f:
-        InjectionModules = f.read()
-        print('Loaded Injection Modules: '+InjectionModules[10:])
-        InjectionModules = InjectionModules[11:-1].replace('"', '').split(',')
-        #Return all of the modules that were loaded
-        return([ReaderModules,InjectionModules])
+    ModuleCatagories = listdir(path='./Modules')
+    print(ModuleCatagories)
+    ModulesLoaded = []
+    n = -1
+    for Modules in ModuleCatagories:
+            n = n + 1
+            ModulesLoaded.append(listdir(path='./Modules/'+Modules))
+            ModulesLoaded[n].remove('__init__.py')
+            if '__pycache__' in ModulesLoaded[n]:
+                try:
+                    ModulesLoaded.remove('__pycache__')
+                except:
+                    ValueError
+    
+    print(ModulesLoaded)
+        
+
 def SelectModule():
     return('SelectModule')
 #Set and parse arguments for better scripting
