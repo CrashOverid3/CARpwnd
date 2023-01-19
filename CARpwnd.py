@@ -21,18 +21,22 @@ ASCIIfile = open('Openings/ASCII.txt','r')
 #R2File.main(output, interface, channel)
 #######################################
 
-
-
 def main():
     print(ASCIIfile.read().split("@NEWLINE@")[random.randrange(0,2)])
     print(punsfile.readlines()[random.randrange(0,2)]) #Should make this check how many lines are in the file.
+    LoadedModules = ListModules()
 
 def ListModules():
     with open('Modules/Reader/__init__.py','r') as f:
-        print('Loaded Reader Modules: '+f.read()[10:])
+        ReaderModules = f.read()
+        print('Loaded Reader Modules: '+ReaderModules[10:])
+        ReaderModules = ReaderModules[11:-1].split(',')
     with open('Modules/Injector/__init__.py','r') as f:
-        print('Loaded Injection Modules: '+f.read()[10:])
-        quit()    
+        InjectionModules = f.read()
+        print('Loaded Injection Modules: '+InjectionModules[10:])
+        InjectionModules = InjectionModules[11:-1].split(',')
+        #Return all of the modules that were loaded
+        return(ReaderModules+InjectionModules)
 #Set and parse arguments for better scripting
 arguments = argparse.ArgumentParser()
 arguments.add_argument('-M', '--Module', help = 'Select program module to use.')
@@ -45,6 +49,6 @@ arguments = arguments.parse_args()
 #Check for ListModules argument and display before starting program
 if arguments.List:
     ListModules()
-
+    quit()
 
 main()
