@@ -9,6 +9,9 @@ import argparse
 from Modules.Reader import *
 #from Modules.Injector import * 
 
+#Set globals of imported modules
+
+
 #Set CANBUS Variables
 
 #Set terrible puns
@@ -16,27 +19,41 @@ punsfile = open('Openings/Puns.txt','r')
 ASCIIfile = open('Openings/ASCII.txt','r')
 #Manual Overide for testing############
 #output='test.txt'
-#interface='socketcan'
-#channel='vcan0'
+interface='socketcan'
+channel='vcan0'
 #R2File.main(output, interface, channel)
 #######################################
 
 def main():
     print(ASCIIfile.read().split("@NEWLINE@")[random.randrange(0,2)])
     print(punsfile.readlines()[random.randrange(0,2)]) #Should make this check how many lines are in the file.
+    #Load Modules into tuple and check if module argument was called and valid
     LoadedModules = ListModules()
+    #print(LoadedModules)
+    if arguments.Module:
+        result = any(arguments.Module in sublist for sublist in LoadedModules)
+        if result == True:                
+            module = arguments.Module
+        else:
+            print('Module "'+arguments.Module+'" Invalid. Append -L to list avalible Modules')
+            quit()
+    else:
+        module = SelectModule()
+    globals()[str(module)].main(interface, channel)
 
 def ListModules():
     with open('Modules/Reader/__init__.py','r') as f:
         ReaderModules = f.read()
         print('Loaded Reader Modules: '+ReaderModules[10:])
-        ReaderModules = ReaderModules[11:-1].split(',')
+        ReaderModules = ReaderModules[11:-1].replace('"', '').split(',')
     with open('Modules/Injector/__init__.py','r') as f:
         InjectionModules = f.read()
         print('Loaded Injection Modules: '+InjectionModules[10:])
-        InjectionModules = InjectionModules[11:-1].split(',')
+        InjectionModules = InjectionModules[11:-1].replace('"', '').split(',')
         #Return all of the modules that were loaded
-        return(ReaderModules+InjectionModules)
+        return([ReaderModules,InjectionModules])
+def SelectModule():
+    return('SelectModule')
 #Set and parse arguments for better scripting
 arguments = argparse.ArgumentParser()
 arguments.add_argument('-M', '--Module', help = 'Select program module to use.')
