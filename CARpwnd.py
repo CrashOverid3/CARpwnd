@@ -15,17 +15,17 @@ from Modules.Reader import *
 punsfile = open('Openings/Puns.txt','r')
 ASCIIfile = open('Openings/ASCII.txt','r')
 #Manual Overide for testing############
-output='test.txt'
-interface='socketcan'
-channel='vcan0'
-R2File.main(output, interface, channel)
+#output='test.txt'
+#interface='socketcan'
+#channel='vcan0'
+#R2File.main(output, interface, channel)
 #######################################
 
 
 
 def main():
+    print(ASCIIfile.read().split("@NEWLINE@")[random.randrange(0,2)])
     print(punsfile.readlines()[random.randrange(0,2)]) #Should make this check how many lines are in the file.
-    #print(ASCIIfile)
 
 def ListModules():
     with open('Modules/Reader/__init__.py','r') as f:
@@ -46,4 +46,5 @@ arguments = arguments.parse_args()
 if arguments.List:
     ListModules()
 
-#main()
+
+main()
