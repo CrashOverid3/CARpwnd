@@ -22,7 +22,7 @@ add injection modules,
   
 add file converting module,
 add R2File rollover capabillity,
-fix argument parsing,
+fix argument parsingDONE,
 Write standard for adding new modules,
 write some abstraction modules?,
 Complete README.md file with,
