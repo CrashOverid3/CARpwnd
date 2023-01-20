@@ -20,8 +20,11 @@ def main(output, interface, channel):
             logger.stop()
             pass
     return()
-def info(): #This can probably be done a better way
+def info():
     desc='''
     This Module dumps the CAN interface to whatever the output file is set to.
     '''
     return(desc)
+def options():
+    options = [['interface', 'channel', 'output'],['filesize']]
+    return(options)

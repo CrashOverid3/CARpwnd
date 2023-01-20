@@ -40,16 +40,29 @@ def main():
     else:
         Module = SelectModule(ModulesLoaded)
     system('clear')
-    print('Executing '+Module+'...')
-    #globals()[str(Module)].main(interface, channel)
+    print('Checking Required Options for '+Module+'...')
+    ModuleOptions = CheckModuleOptions(Module)
+    print(ModuleOptions)
+    
+
+def CheckModuleOptions(Module):
+    CheckedModuleOptions = globals()[str(Module)].options()
+    GlobalModuleOptions = ['interface', 'channel', 'input', 'output']
+    ModuleOptions = []
+    for Option in CheckedModuleOptions[0]:
+        for GlobalOption in GlobalModuleOptions:
+            if Option == GlobalOption:
+                ModuleOptions.append(Option)
+    ModuleOptions.append(CheckedModuleOptions[1])
+    return(ModuleOptions)
 
 def ListModules():
-    ModuleCatagories = listdir(path='./Modules')
+    ModuleCategories = listdir(path='./Modules')
     ModulesLoaded = []
     n = -1
-    for Catagory in ModuleCatagories:
+    for Category in ModuleCategories:
             n = n + 1
-            ModulesLoaded.append(listdir(path='./Modules/'+Catagory))
+            ModulesLoaded.append(listdir(path='./Modules/'+Category))
             ModulesLoaded[n].remove('__init__.py')
             ModulesLoaded[n].remove('__pycache__') #<-------Annoying
             ModulesLoaded[n] = [s.replace('.py','') for s in ModulesLoaded[n]]
@@ -57,12 +70,12 @@ def ListModules():
 Loaded Modules by Catagory
 --------------------------''')
     n = 0
-    for Catagory in ModuleCatagories:
-        print(ModuleCatagories[n])
+    for Category in ModuleCategories:
+        print(ModuleCategories[n])
         print(ModulesLoaded[n])
         n = n + 1
     sleep(1)
-    return([ModulesLoaded, ModuleCatagories])     
+    return([ModulesLoaded, ModuleCategories])     
 
 def SelectModule(ModulesLoaded):
     system('clear')
@@ -70,24 +83,25 @@ def SelectModule(ModulesLoaded):
 Select a Catagory From Below
 --------------------------''')
     n = 0
-    for Catagory in ModulesLoaded[1]:
-        print(str(n+1)+': '+Catagory)
+    for Category in ModulesLoaded[1]:
+        print(str(n+1)+': '+Category)
         n = n + 1
-    Catagory = int(input())-1
+    Category = int(input())-1
     system('clear')
     print('''
 Select a Module From Below
 --------------------------''')
     n = 0
     for Module in ModulesLoaded:
-        print(str(n+1)+': '+ModulesLoaded[0][Catagory][n])
+        print(str(n+1)+': '+ModulesLoaded[0][Category][n])
         n = n + 1
-    Module = ModulesLoaded[0][Catagory][int(input())-1]
+    Module = ModulesLoaded[0][Category][int(input())-1]
     return(Module)
 
 #Set and parse arguments for better scripting
 arguments = argparse.ArgumentParser()
 arguments.add_argument('-M', '--Module', help = 'Select program module to use.')
+arguments.add_argument('--ModuleOptions', help = 'Set module Specific Options.')
 arguments.add_argument('-L', '--List', help = 'List avalible modules.', action='store_true')
 arguments.add_argument('-o', '--Output', help = 'Output file into current directory.')
 arguments.add_argument('-i', '--Input', help = 'Input file from current directory.')
