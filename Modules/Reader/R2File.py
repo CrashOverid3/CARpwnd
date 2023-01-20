@@ -26,5 +26,5 @@ def info():
     '''
     return(desc)
 def options():
-    options = [['interface', 'channel', 'output'],['filesize']]
+    options = ['Interface', 'Channel', 'Output'],['Filesize']
     return(options)

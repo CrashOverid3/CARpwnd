@@ -10,11 +10,6 @@ from Modules.Reader import *
 from Modules.Injector import * 
 from os import listdir, system
 from time import sleep
-#Set globals of imported modules
-
-
-#Set CANBUS Variables
-
 #Set terrible puns
 punsfile = open('Openings/Puns.txt','r')
 ASCIIfile = open('Openings/ASCII.txt','r')
@@ -43,16 +38,39 @@ def main():
     print('Checking Required Options for '+Module+'...')
     ModuleOptions = CheckModuleOptions(Module)
     print(ModuleOptions)
+    CollectOptions(ModuleOptions)
     
+def CollectOptions(ModuleOptions):
+    ArgumentsList = (str(arguments)[10:-1].split(','))
+    for Argument in ArgumentsList:
+        Argument = Argument.replace(' ','')
+        if Argument[-4:] == 'None':
+            for Option in ModuleOptions[0]:
+                if Option == Argument[:-5]:
+                    globals()['SetOptions'].__dict__['Set'+str(Argument)[:-5]]()
+
+class SetOptions():
+    def SetModule():
+        print('SetModule')
+    def SetModuleOptions():
+        print('SetModuleOptions')
+    def SetOutput():
+        print('SetOutput')
+    def SetInput():
+        print('SetInput')
+    def SetInterface():
+        print('SetInterface')
+    def SetChannel():
+        print('SetChannel')
 
 def CheckModuleOptions(Module):
     CheckedModuleOptions = globals()[str(Module)].options()
-    GlobalModuleOptions = ['interface', 'channel', 'input', 'output']
-    ModuleOptions = []
+    GlobalModuleOptions = ['Interface', 'Channel', 'Input', 'Output']
+    ModuleOptions = [[],]
     for Option in CheckedModuleOptions[0]:
         for GlobalOption in GlobalModuleOptions:
             if Option == GlobalOption:
-                ModuleOptions.append(Option)
+                ModuleOptions[0].append(Option)
     ModuleOptions.append(CheckedModuleOptions[1])
     return(ModuleOptions)
 
@@ -101,7 +119,7 @@ Select a Module From Below
 #Set and parse arguments for better scripting
 arguments = argparse.ArgumentParser()
 arguments.add_argument('-M', '--Module', help = 'Select program module to use.')
-arguments.add_argument('--ModuleOptions', help = 'Set module Specific Options.')
+arguments.add_argument('--ModuleOptions', help = 'Set module Specific Options. Example: --ModuleOptions filesize=100M')
 arguments.add_argument('-L', '--List', help = 'List avalible modules.', action='store_true')
 arguments.add_argument('-o', '--Output', help = 'Output file into current directory.')
 arguments.add_argument('-i', '--Input', help = 'Input file from current directory.')
