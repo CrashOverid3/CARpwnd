@@ -7,7 +7,7 @@ import can
 import random
 import argparse
 from Modules.Reader import *
-#from Modules.Injector import * 
+from Modules.Injector import * 
 from os import listdir
 
 #Set globals of imported modules
@@ -44,20 +44,22 @@ def main():
 
 def ListModules():
     ModuleCatagories = listdir(path='./Modules')
-    print(ModuleCatagories)
     ModulesLoaded = []
     n = -1
-    for Modules in ModuleCatagories:
+    for Module in ModuleCatagories:
             n = n + 1
-            ModulesLoaded.append(listdir(path='./Modules/'+Modules))
+            ModulesLoaded.append(listdir(path='./Modules/'+Module))
             ModulesLoaded[n].remove('__init__.py')
-            if '__pycache__' in ModulesLoaded[n]:
-                try:
-                    ModulesLoaded.remove('__pycache__')
-                except:
-                    ValueError
-    
-    print(ModulesLoaded)
+            ModulesLoaded[n].remove('__pycache__') #<-------Annoying
+    print('''
+Loaded Modules by Catagory
+--------------------------''')
+    n = -1
+    for Module in ModuleCatagories:
+        n = n + 1
+        print(ModuleCatagories[n])
+        print(ModulesLoaded[n])
+    return(ModulesLoaded)
         
 
 def SelectModule():
