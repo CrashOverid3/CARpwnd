@@ -47,8 +47,8 @@ def CollectOptions(ModuleOptions, Module):
             for Option in ModuleOptions[0]:
                 if Argument.split('=')[0] == Option:
                     CollectedOptions.append(Argument.split('=')[1].replace("'", ""))
-        if Argument[:-5] == 'ModuleOption':
-            if Argument == 'ModuleOption=None':
+        if Argument[:14] == 'ModuleOptions=':
+            if Argument == 'ModuleOptions=None':
                 print('No module specific options were set.  '+Module+' will run with default options unless specified with --ModuleOptions <option>')
                 CollectedOptions.append('None')
             else:
@@ -129,7 +129,7 @@ Select a Module From Below
 #Set and parse arguments for better scripting
 arguments = argparse.ArgumentParser()
 arguments.add_argument('-M', '--Module', help = 'Select program module to use.')
-arguments.add_argument('--ModuleOptions', help = 'Set module Specific Options. Example: --ModuleOptions filesize=100M')
+arguments.add_argument('--ModuleOptions', help = 'Set module Specific Options. Example: --ModuleOptions arbitration_id=0XC0FFEE,data=1,2,3,4')
 arguments.add_argument('-L', '--List', help = 'List avalible modules.', action='store_true')
 arguments.add_argument('-o', '--Output', help = 'Output file into current directory.')
 arguments.add_argument('-i', '--Input', help = 'Input file from current directory.')

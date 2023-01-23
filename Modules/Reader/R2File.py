@@ -4,7 +4,7 @@
 #Import Modules
 import can
 #Log Interface to file chosen by user until keyboard interrupt 
-def main(output, interface, channel):  
+def main(ModuleOptions, output, interface, channel):  
     with can.ThreadSafeBus(interface=interface, channel=channel) as bus:
         logger = can.Logger(output)
         PacketTotal = 0
