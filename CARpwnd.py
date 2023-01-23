@@ -37,23 +37,23 @@ def main():
     system('clear')
     print('Checking Required Options for '+Module+'...')
     ModuleOptions = CheckModuleOptions(Module)
-    print(ModuleOptions)
-    CollectOptions(ModuleOptions)
+    CollectOptions(ModuleOptions, Module)
     
-def CollectOptions(ModuleOptions):
+def CollectOptions(ModuleOptions, Module):
+    CollectedOptions = []
     ArgumentsList = (str(arguments)[10:-1].split(','))
     for Argument in ArgumentsList:
         Argument = Argument.replace(' ','')
         if Argument[-4:] == 'None':
             for Option in ModuleOptions[0]:
                 if Option == Argument[:-5]:
-                    globals()['SetOptions'].__dict__['Set'+str(Argument)[:-5]]()
+                    CollectedOptions.append(globals()['SetOptions'].__dict__['Set'+str(Argument)[:-5]]())
+        if Argument == 'ModuleOptions=None':
+             print('No module options were set.  '+Module+' will run with default options unless specified with --ModuleOptions <Option>')
 
 class SetOptions():
     def SetModule():
         print('SetModule')
-    def SetModuleOptions():
-        print('SetModuleOptions')
     def SetOutput():
         print('SetOutput')
     def SetInput():
