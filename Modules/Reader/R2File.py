@@ -4,11 +4,10 @@
 #Import Modules
 import can
 #Log Interface to file chosen by user until keyboard interrupt 
-def main(ModuleOptions, output, interface, channel):  
+def main(output, interface, channel):  
     with can.ThreadSafeBus(interface=interface, channel=channel) as bus:
         logger = can.Logger(output)
         PacketTotal = 0
-        print(ModuleOptions)
         try:
             print('Dumping to '+output+'. Press Ctl+C to stop...')
             while True:        
@@ -27,5 +26,5 @@ def info():
     '''
     return(desc)
 def options():
-    options = ['Interface', 'Channel', 'Output'],['Filesize']
+    options = ['Interface', 'Channel', 'Output'],''
     return(options)

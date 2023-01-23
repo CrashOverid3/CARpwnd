@@ -43,9 +43,16 @@ def CollectOptions(ModuleOptions, Module):
             for Option in ModuleOptions[0]:
                 if Option == Argument[:-5]:
                     CollectedOptions.append(globals()['SetOptions'].__dict__['Set'+str(Argument)[:-5]](Module))
-        if Argument == 'ModuleOptions=None':
-             print('No module specific options were set.  '+Module+' will run with default options unless specified with --ModuleOptions <option>')
-             CollectedOptions.append('None')
+        else:
+            for Option in ModuleOptions[0]:
+                if Argument.split('=')[0] == Option:
+                    CollectedOptions.append(Argument.split('=')[1].replace("'", ""))
+        if Argument[:-5] == 'ModuleOption':
+            if Argument == 'ModuleOption=None':
+                print('No module specific options were set.  '+Module+' will run with default options unless specified with --ModuleOptions <option>')
+                CollectedOptions.append('None')
+            else:
+                CollectedOptions.append(Argument[14:].replace("'",""))
     return(CollectedOptions)
 #Set Class for all of the standard options that are included by argparse
 class SetOptions():
