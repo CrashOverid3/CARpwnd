@@ -10,24 +10,15 @@ from Modules.Reader import *
 from Modules.Injector import * 
 from os import listdir, system
 from time import sleep
-#Set terrible puns
-punsfile = open('Openings/Puns.txt','r')
-ASCIIfile = open('Openings/ASCII.txt','r')
-#Manual Overide for testing############
-#output='test.csv'
-#interface='socketcan'
-#channel='vcan0'
-#R2File.main(output, interface, channel)
-#######################################
 
 def main():
-    print(ASCIIfile.read().split("@NEWLINE@")[random.randrange(0,2)])
-    print(punsfile.readlines()[random.randrange(0,2)]) #Should make this check how many lines are in the file.
+    print(random.choice(open('Openings/ASCII.txt','r').read().split('@NEWLINE@')))
+    print(random.choice(open('Openings/Puns.txt','r').readlines())) #Should make this check how many lines are in the file.
     #Load Modules into tuple and check if module argument was called and valid
     ModulesLoaded = ListModules()
     if arguments.Module:
         result = any(arguments.Module in sublist for sublist in ModulesLoaded[0])
-        if result == True:                
+        if result == True:      
             Module = arguments.Module
         else:
             print('Module selection "'+arguments.Module+'" is invalid. Append -L to list avalible modules')
