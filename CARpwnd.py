@@ -37,7 +37,11 @@ def main():
     system('clear')
     print('Checking Required Options for '+Module+'...')
     ModuleOptions = CheckModuleOptions(Module)
-    CollectOptions(ModuleOptions, Module)
+    CollectedOptions = CollectOptions(ModuleOptions, Module)
+    system('clear')
+    print('Executing '+Module+' with the following options: '+str(CollectedOptions))
+    sleep(0.5)
+    globals()[Module].__dict__['main'](*CollectedOptions)
     
 def CollectOptions(ModuleOptions, Module):
     CollectedOptions = []
@@ -47,21 +51,29 @@ def CollectOptions(ModuleOptions, Module):
         if Argument[-4:] == 'None':
             for Option in ModuleOptions[0]:
                 if Option == Argument[:-5]:
-                    CollectedOptions.append(globals()['SetOptions'].__dict__['Set'+str(Argument)[:-5]]())
+                    CollectedOptions.append(globals()['SetOptions'].__dict__['Set'+str(Argument)[:-5]](Module))
         if Argument == 'ModuleOptions=None':
-             print('No module options were set.  '+Module+' will run with default options unless specified with --ModuleOptions <Option>')
-
+             print('No module specific options were set.  '+Module+' will run with default options unless specified with --ModuleOptions <option>')
+             CollectedOptions.append('None')
+    return(CollectedOptions)
+#Set Class for all of the standard options that are included by argparse
 class SetOptions():
-    def SetModule():
-        print('SetModule')
-    def SetOutput():
-        print('SetOutput')
-    def SetInput():
-        print('SetInput')
-    def SetInterface():
-        print('SetInterface')
-    def SetChannel():
-        print('SetChannel')
+    def SetOutput(Module):
+        return(input('Please select an ouput file for '+Module+': '))
+    def SetInput(Module):
+        return(input('Please select an input file for '+Module+': '))
+    def SetInterface(Module):
+        SupportedInterfaces = ['canalystii','cantact','etas','gs_usb','iscan','ixxat','kvaser','neousys','neovi','nican','nixnet', 'robotell','seeedstudio','serial','slcan','socketcan','socketcand','systec','udp_multicast','usb2can','vector','virtual']
+        print('''
+Please select a supported interface
+----------------------------------''')
+        n = 0
+        for Interface in SupportedInterfaces:
+            print(str(n+1)+': '+Interface)
+            n = n + 1
+        return(SupportedInterfaces[int(input('Interface Selection:'))-1])
+    def SetChannel(Module):
+        return(input('Please select a system channel to listen on: '))
 
 def CheckModuleOptions(Module):
     CheckedModuleOptions = globals()[str(Module)].options()

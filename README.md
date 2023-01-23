@@ -11,8 +11,6 @@ TODO:
 make it allow for autosetup of can interface,
 impliment ICSIM?,
 add real puns so I wont be so sad,
-Add Dynamic Module Execution,
-Add Dynamic Module Options Setting,
 add injection modules,
   inject by typing,
   iject by replay,
