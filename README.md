@@ -10,7 +10,6 @@ In this repo there will be two packages.  One that has everything required baked
 TODO:
 make it allow for autosetup of can interface,
 impliment ICSIM?,
-add real puns so I wont be so sad,
 add injection modules,
   inject by typing,
   iject by replay,
