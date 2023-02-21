@@ -1,6 +1,7 @@
 # CARpwned
 Do it all tool for CAN-BUS Exploration, Enumeration and Exploitation
-Written by @crashoverid3 and @smadrid062
+
+Written by @github/CrashOverid3 and @github/smadrid062
 # ToDo
 - [ ] Import MulticastUDP as Module
 - [ ] Add ICSIM script?
