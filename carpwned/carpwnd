@@ -27,15 +27,13 @@ class CustomeCLI(click.MultiCommand):
         return ns['cli']
 
 def print_version(ctx, self, value):
-
-    print("0.0.2")
+    print("0.2.1")
     print(random.choice(open(ART_FILE).read().split(DELIMITER)))
     print(random.choice(open(PUNS_FILE).readlines()))
 
-
 @click.command(cls=CustomeCLI,context_settings=dict(help_option_names=['-h', '--help']))
 @click.option("--version", help="output carpwnd version", callback=print_version,is_flag=True)
-def cli():pass
+def cli(version):pass
 
 if __name__ == "__main__":
     cli()

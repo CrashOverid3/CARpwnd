@@ -6,15 +6,17 @@ import can
 FILE_EXTENSION = ["asc","blf","csv","db","log","txt"]
 
 @click.group()
-@click.command()
+#@click.command()
+@click.option("-e","--extension-type", help="extension to use for output file", type=click.Choice(FILE_EXTENSION, case_sensitive=True), default="log")
+@click.option("-c", "--channel", help="will give interface name to be identified by")
+@click.option("-v", "--verbose", help="ouput to stdout while writing to file", is_flag=True)
+@click.argument("bus-type",type=click.Choice(can.VALID_INTERFACES,case_sensitive=True))
+@click.argument("output-file", type=click.File('wb'))
+
 def cli():pass
 
 @cli.command()
-@cli.option("-e","--extension-type", help="extension to use for output file", type=click.Choice(FILE_EXTENSION, case_sensitive=True), default="log")
-@cli.option("-c", "--channel", help="will give interface name to be identified by")
-@cli.option("-v", "--verbose", help="ouput to stdout while writing to file", is_flag=True)
-@cli.argument("bus-type",type=click.Choice(can.VALID_INTERFACES,case_sensitive=True))
-@cli.argument("output-file", type=click.path)
+
 def store_capture(extension_type,channel,verbose,bus_type,output_file):
     """
         store capture  command will dump can data into file specified
@@ -45,8 +47,6 @@ def store_capture(extension_type,channel,verbose,bus_type,output_file):
     captured_total += 1
 
 @cli.command()
-@cli.option("-c", "--channel", help="will give interface name to be identified by")
-@cli.argument("bus-type",type=click.Choice(can.VALID_INTERFACES,case_sensitive=True))
 def print_capture(channel, bus_type):
     """
     print-capture will output the captured frames to stdout
