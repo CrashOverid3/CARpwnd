@@ -6,12 +6,12 @@ import sys
 def cli():pass
 
 @cli.command()
-@cli.option("-c", "--channel", help="will give interface name to be identified by")
-@cli.option("-p", "--period", help="periodicaly send frame. period specified in seconds", type=click.FLOAT)
-@cli.option("-d", "--duration", help="how many time to send frame. ignored if no value set for period", type=click.INT)
-@cli.argument("bus-type",type=click.Choice(can.VALID_INTERFACES,case_sensitive=True))
-@cli.argument("arbitration-id")
-@cli.argument("data", nargs=-1)
+@click.option("-c", "--channel", help="will give interface name to be identified by")
+@click.option("-p", "--period", help="periodicaly send frame. period specified in seconds", type=click.FLOAT)
+@click.option("-d", "--duration", help="how many time to send frame. ignored if no value set for period", type=click.INT)
+@click.argument("bus-type",type=click.Choice(can.VALID_INTERFACES,case_sensitive=True))
+@click.argument("arbitration-id")
+@click.argument("data", nargs=-1)
 def inject_frame(channel, period, duration,bus_type, arbitration_id, data):
     """ 
         inject_frame will inject a can frame using the interface type selected 
