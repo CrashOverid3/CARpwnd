@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+
+import click
+import os
+import random
+
+DELIMITER = "@NEWLINE@"
+PUNS_FILE = "../data/puns"
+ART_FILE = "../data/ascii"
+
+package_dir = os.path.join(os.path.dirname(__file__), "carpwnd-tools")
+
+class CustomeCLI(click.MultiCommand):
+    def list_commands(self, ctx):
+        modules = list()
+        for file_name in os.listdir(package_dir):
+            if file_name.endswith(".py") and not file_name.startswith("__init__"):
+                modules.append(file_name.split('.')[0])
+        return modules
+
+    def get_command(self, ctx, name):
+        ns = dict()
+        module_name = os.path.join(package_dir,f"{name}.py")
+        with open(module_name) as fd:
+            code = compile(fd.read(), module_name, 'exec')
+            eval(code,ns,ns)
+        return ns['cli']
+
+def print_version(ctx, self, value):
+
+    print("0.0.2")
+    print(random.choice(open(ART_FILE).read().split(DELIMITER)))
+    print(random.choice(open(PUNS_FILE).readlines()))
+
+
+@click.command(cls=CustomeCLI,context_settings=dict(help_option_names=['-h', '--help']))
+@click.option("--version", help="output carpwnd version", callback=print_version,is_flag=True)
+def cli():pass
+
+if __name__ == "__main__":
+    cli()
