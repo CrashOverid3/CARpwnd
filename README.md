@@ -31,6 +31,35 @@ The main carpwnd program will be in ./CARpwnd/carpwnd and can be run as an execu
 cd ./CARpwnd
 ./carpwnd
 ```
+![Carpwnd-version](https://user-images.githubusercontent.com/119644383/220784241-162628a8-9e38-4042-86dc-818966a70add.png)
+
 # Usage
+Example:```./carpwnd capture store -c can0 -e txt socketcan output.txt```
+## Current Modules
+### Injection
+Injects individual CAN packets into the selected python-can supported interface
+```
+Usage: carpwnd injection [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  -h, --help  Show this message and exit.
+
+Commands:
+  inject-frame  inject_frame will inject a can frame using the interface...
+```
+### Capture
+Captures packets from a python-can supported interface and either dumps them to a file or the terminal
+```
+Usage: carpwnd capture [store, print] [OPTIONS] Interface OUTPUT_FILE
+
+Options:
+  -e, --extension-type [asc|blf|csv|db|log|txt]
+                                  extension to use for output file
+  -c, --channel TEXT              will give interface name to be identified by
+  -v, --verbose                   ouput to stdout while writing to file
+  -h, --help                      Show this message and exit.
+```
+### Parsing
+### Multicast
 
 # Module Teplates
