@@ -1,4 +1,4 @@
-# CARpwned
+# CARpwnd
 Do it all tool for CAN-BUS Exploration, Enumeration and Exploitation
 
 Written by @github/CrashOverid3 and @github/smadrid062
