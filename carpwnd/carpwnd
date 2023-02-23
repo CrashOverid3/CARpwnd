@@ -27,7 +27,7 @@ class CustomeCLI(click.MultiCommand):
         return ns['cli']
 
 def print_version(ctx, self, value):
-    print("0.2.1")
+    print("CARpwnd version 0.2.1")
     print(random.choice(open(ART_FILE).read().split(DELIMITER)))
     print(random.choice(open(PUNS_FILE).readlines()))
 
