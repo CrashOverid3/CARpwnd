@@ -59,7 +59,16 @@ Options:
   -v, --verbose                   ouput to stdout while writing to file
   -h, --help                      Show this message and exit.
 ```
-### Parsing
 ### Multicast
+Simmilar to Capture but it sends and recieves packets over a multicast udp connection
+```
+Usage: carpwnd multicast [OPTIONS] COMMAND [ARGS]...
 
+Options:
+  -h, --help  Show this message and exit.
+
+Commands:
+  recieve  'multicast recieve' Command will recieve over udp multicast...
+  send     'multicast send' Command will send can data over udp multicast
+```
 # Module Teplates
