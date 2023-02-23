@@ -24,7 +24,7 @@ def store(extension_type,channel,verbose,bus_type,output_file):
     bus = can.ThreadSafeBus(interface=bus_type, channel=channel) if channel is not None else can.ThreadSafeBus(interface=bus_type)
     write_logger = can.Logger(file_name)
     if verbose:
-        print_logger = can.Logger()
+        print_logger = can.Printer()
     while True:
 
         try:
@@ -50,7 +50,7 @@ def print(channel, bus_type):
     """
     'capture print' will output the captured frames to stdout
     """
-    logger = can.Logger()
+    logger = can.Printer()
     captured_total = 0
     bus = can.ThreadSafeBus(interface=bus_type, channel=channel) if channel is not None else can.ThreadSafeBus(interface=bus_type)
     
