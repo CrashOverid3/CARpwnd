@@ -6,6 +6,7 @@ Written by ![CrashOverid3](https://github.com/CrashOverid3) and ![smadrid062](ht
 - [x] Import MulticastUDP as Module
 - [ ] Add ICSIM script?
 - [ ] Add data abstraction modules
+  - [x] dbc file conversion
   - [ ] matplotlib?
   - [ ] machine learning?
 - [ ] Make Public
