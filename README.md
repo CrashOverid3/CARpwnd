@@ -1,7 +1,7 @@
 # CARpwnd
 Do it all tool for CAN-BUS Exploration, Enumeration and Exploitation
 
-Written by @github/CrashOverid3 and @github/smadrid062
+Written by ![CrashOverid3](https://github.com/CrashOverid3) and ![smadrid062](https://github.com/smadrid062)
 # ToDo
 - [x] Import MulticastUDP as Module
 - [ ] Add ICSIM script?
@@ -44,6 +44,8 @@ cd ./CARpwnd
 ![Carpwnd-version](https://user-images.githubusercontent.com/119644383/220784241-162628a8-9e38-4042-86dc-818966a70add.png)
 
 # Usage
+The execution of carpwnd is as follows ```./carpwnd <module> <submodule> [Options] <arguments>```
+
 Example:```./carpwnd capture store -c can0 -e txt socketcan output.txt```
 ## Current Modules
 ### Injection
@@ -81,4 +83,4 @@ Commands:
   recieve  'multicast recieve' Command will recieve over udp multicast...
   send     'multicast send' Command will send can data over udp multicast
 ```
-##Module Teplates
+## Module Templates
