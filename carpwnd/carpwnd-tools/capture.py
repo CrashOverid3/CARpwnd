@@ -57,7 +57,6 @@ def print(channel, bus_type):
     while True:
         try:
             logger(bus.recv())
-            quit()
         except KeyboardInterrupt:
             print(f"{captured_total} captured frames")
             logger.stop()
