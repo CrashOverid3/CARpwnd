@@ -43,6 +43,11 @@ def send(channel, bus_type, port):
 @click.argument("output-file")
 
 def recieve(channel, bus_type, port, output_file):
+    """
+        'multicast recieve' Command will recieve over udp multicast and write to file or terminal
+
+        'port'  Network port to use
+    """
     #file_name = f"{output_file}.{extension_type}"
     with UdpMulticastBus(port=port) as udpbus:
         write_logger = can.Logger(output_file)
