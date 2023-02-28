@@ -32,8 +32,8 @@ def print_version(ctx, self, value):
     print(random.choice(open(PUNS_FILE).readlines()))
 
 @click.command(cls=CustomeCLI,context_settings=dict(help_option_names=['-h', '--help']))
-@click.option("--version", help="output carpwnd version", callback=print_version,is_flag=True)
-def cli(version):pass
+#@click.option("--version", help="output carpwnd version", callback=print_version,is_flag=True) removing until we fix it
+def cli():pass
 
 if __name__ == "__main__":
     cli()
