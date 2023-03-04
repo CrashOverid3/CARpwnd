@@ -13,9 +13,9 @@ Written by ![CrashOverid3](https://github.com/CrashOverid3) and ![smadrid062](ht
   - [ ] Finish Documentation
     - [x] Summary
     - [x] Installation
-    - [ ] Usage
+    - [x] Usage
     - [ ] Modules
-      - [ ] Module Teplates
+      - [ ] Module Templates
     - [ ] Spell and fact check
     - [ ] Make pretty like other cool projects
   - [ ] test on windows
