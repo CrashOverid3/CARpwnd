@@ -27,11 +27,11 @@ Written by ![CrashOverid3](https://github.com/CrashOverid3) and ![smadrid062](ht
 # Summary
 CARpwnd is a colaborative project that is intended to be a framework for building automotive hacking tools.  There is a particular focus on the CAN bus but in theory anything can be added to it due to its dynamic loading of modules.  Modules can be added or removed at will allowing for very small package sizes to be installed on micro computers aslong as python is installed.  A majority of the base modules utilize [Python-Can](https://github.com/hardbyte/python-can) and hence are OS agnostic.  Windows and Linux specific modules are also included and will the user will be flaged if they are trying to run an incompatible module.  Contributions are welcomed and anything that is of value and isnt already included will be added to the main project.  
 # Installation
-Installation is easy and the only required dependencies currently are python-can and canutils.
+Installation is easy and the only required dependencies currently are python-can, cantools, click and canutils.
 
 For a Debian based system:
 ```
-sudo pip install python-can
+sudo pip install python-can cantools click
 sudo apt install canutils
 ```
 To download the repository
