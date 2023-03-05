@@ -9,22 +9,21 @@ Written by ![CrashOverid3](https://github.com/CrashOverid3) and ![smadrid062](ht
   - [x] dbc file conversion
   - [ ] matplotlib?
   - [ ] machine learning?
-- [ ] Make Public
-  - [ ] Finish Documentation
+- [x] Make Public
+  - [x] Finish Documentation
     - [x] Summary
     - [x] Installation
     - [x] Usage
-    - [ ] Modules
-      - [ ] Module Templates
-    - [ ] Spell and fact check
-    - [ ] Make pretty like other cool projects
-  - [ ] test on windows
-  - [ ] create release
+    - [x] Modules
+      - [x] Module Templates
+    - [x] Spell and fact check
+  - [x] test on windows
+  - [x] create release
 - [ ] Windows interface setup
-- [ ] Make GUI front end for raspberry pi screen and infotainment use
+- [ ] Make GUI front end for raspberry pi screen and infotainment uses
 
 # Summary
-CARpwnd is a colaborative project that is intended to be a framework for building automotive hacking tools.  There is a particular focus on the CAN bus but in theory anything can be added to it due to its dynamic loading of modules.  Modules can be added or removed at will allowing for very small package sizes to be installed on micro computers aslong as python is installed.  A majority of the base modules utilize [Python-Can](https://github.com/hardbyte/python-can) and hence are OS agnostic.  Windows and Linux specific modules are also included and will the user will be flaged if they are trying to run an incompatible module.
+CARpwnd is a colaborative project that is intended to be a framework for building automotive hacking tools.  There is a particular focus on the CAN bus but in theory anything can be added to it due to its dynamic loading of modules.  Modules can be added or removed at will allowing for very small package sizes to be installed on micro computers aslong as python is installed.  A majority of the base modules utilize [Python-Can](https://github.com/hardbyte/python-can) and hence are OS agnostic.  Windows and Linux specific modules are also included and will the user will be flaged if they are trying to run an incompatible module.  Contributions are welcomed and anything that is of value and isnt already included will be added to the main project.  
 # Installation
 Installation is easy and the only required dependencies currently are python-can and canutils.
 
@@ -72,6 +71,18 @@ Options:
   -v, --verbose                   ouput to stdout while writing to file
   -h, --help                      Show this message and exit.
 ```
+### Convert
+Converts database and captured interface formats to any other format supported by python-can and cantools.
+```
+Usage: carpwnd convert [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  -h, --help  Show this message and exit.
+
+Commands:
+  tobus   Converts input file and sends it through the injector module
+  tofile  Converts input file to a different format and writes to output
+```
 ### Multicast
 Simmilar to Capture but it sends and recieves packets over a multicast udp connection
 ```
@@ -84,4 +95,52 @@ Commands:
   recieve  'multicast recieve' Command will recieve over udp multicast...
   send     'multicast send' Command will send can data over udp multicast
 ```
-## Module Templates
+### Interface - Linux Only
+Script that sets an interface up on a linux machine.  Does nothing if the machine is windows or macos.
+```
+Usage: carpwnd interface [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  -h, --help  Show this message and exit.
+
+Commands:
+  setup  'can-type' The python-can compatible interface to setup
+```
+## Modules Template
+Each module is just a seperate python file that is placed in the carpwnd-tools directory.  The file located at carpwnd/example-tool-template/example.py is a copy of the capture module with an excessive ammount of comments added to describe how it works.
+
+The following is a general template of how modules in carpwnd are written.
+```
+#click argument parsing requirements for each module
+@click.group()
+
+#Set name for the click commands.  In this case its 'cli'
+def cli():pass
+
+#set first command
+@cli.command()
+
+#click options
+@click.option("-e", "--example-option", help="example option")
+
+#click arguments
+@click.argument("example-argument")
+
+#first module command that has the previous options and arguments
+def example1(example_option, example_argument)
+  #Module command help text
+  """
+  example help text
+  """
+  function contents...
+
+#second command stuff
+@cli.command()
+@cli.option()
+@cli.argument()
+def example2()
+  """
+  help page
+  """
+  function contents...
+```
