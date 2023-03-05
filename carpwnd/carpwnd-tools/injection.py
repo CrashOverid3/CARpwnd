@@ -10,7 +10,7 @@ def cli():pass
 @click.option("-p", "--period", help="periodicaly send frame. period specified in seconds", type=click.FLOAT)
 @click.option("-d", "--duration", help="how many time to send frame. ignored if no value set for period", type=click.INT)
 @click.argument("bus-type",type=click.Choice(can.VALID_INTERFACES,case_sensitive=True))
-@click.option("channel")
+@click.option("--channel")
 @click.argument("arbitration-id")
 @click.argument("data", nargs=-1)
 def inject_frame(period, duration,bus_type,channel, arbitration_id, data):
