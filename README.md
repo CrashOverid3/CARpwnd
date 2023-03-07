@@ -3,22 +3,11 @@ Do it all tool for CAN-BUS Exploration, Enumeration and Exploitation
 
 Written by ![CrashOverid3](https://github.com/CrashOverid3) and ![smadrid062](https://github.com/smadrid062)
 # ToDo
-- [x] Import MulticastUDP as Module
 - [ ] Add ICSIM script?
 - [ ] Add data abstraction modules
   - [x] DBC file conversion
   - [ ] Matplotlib?
   - [ ] Machine learning?
-- [x] Make Public
-  - [x] Finish ReadMe
-    - [x] Summary
-    - [x] Installation
-    - [x] Usage
-    - [x] Modules
-      - [x] Module Templates
-    - [x] Spell and fact check
-  - [x] Test on windows
-  - [x] Create release
 - [ ] Windows interface setup
 - [ ] Make GUI front end for raspberry pi screen and infotainment uses
 - [ ] Submodules for DBC files?
@@ -59,19 +48,20 @@ Options:
   -h, --help  Show this message and exit.
 
 Commands:
-  inject-frame  inject_frame will inject a can frame using the interface...
+  inject-frame  'injection inject_frame' will inject a can frame using...
+  replay-dump   'injection replay_dump' will inject all of the packets on...
 ```
 ### Capture
 Captures packets from a python-can supported interface and either dumps them to a file or the terminal
 ```
-Usage: carpwnd capture [store, print] [OPTIONS] Interface OUTPUT_FILE
+Usage: carpwnd capture [OPTIONS] COMMAND [ARGS]...
 
 Options:
-  -e, --extension-type [asc|blf|csv|db|log|txt]
-                                  extension to use for output file
-  -c, --channel TEXT              will give interface name to be identified by
-  -v, --verbose                   ouput to stdout while writing to file
-  -h, --help                      Show this message and exit.
+  -h, --help  Show this message and exit.
+
+Commands:
+  print  'capture print' will output the captured frames to stdout
+  store  'capture store' command will dump can data into file specified
 ```
 ### Convert
 Converts database and captured interface formats to any other format supported by python-can and cantools.
@@ -82,8 +72,7 @@ Options:
   -h, --help  Show this message and exit.
 
 Commands:
-  tobus   Converts input file and sends it through the injector module
-  tofile  Converts input file to a different format and writes to output
+  tofile  'convert tofile' Converts input file to a different format and...
 ```
 ### Multicast
 Simmilar to Capture but it sends and recieves packets over a multicast udp connection
@@ -94,8 +83,8 @@ Options:
   -h, --help  Show this message and exit.
 
 Commands:
-  recieve  'multicast recieve' Command will recieve over udp multicast...
-  send     'multicast send' Command will send can data over udp multicast
+  recieve  'multicast recieve' recieves frames over udp multicast and...
+  send     'multicast send' sends can frames over udp multicast
 ```
 ### Interface - Linux Only
 Script that sets an interface up on a linux machine.  Does nothing if the machine is windows or macos.
@@ -106,7 +95,7 @@ Options:
   -h, --help  Show this message and exit.
 
 Commands:
-  setup  'can-type' The python-can compatible interface to setup
+  setup  'interface setup' Setup ICSIM style virtual socketcan interface
 ```
 ## Modules Template
 Each module is just a seperate python file that is placed in the carpwnd-tools directory.  The file located at carpwnd/example-tool-template/example.py is a copy of the capture module with an excessive ammount of comments added to describe how it works.
