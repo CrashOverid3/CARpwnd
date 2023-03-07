@@ -6,26 +6,26 @@ Written by ![CrashOverid3](https://github.com/CrashOverid3) and ![smadrid062](ht
 - [x] Import MulticastUDP as Module
 - [ ] Add ICSIM script?
 - [ ] Add data abstraction modules
-  - [x] dbc file conversion
-  - [ ] matplotlib?
-  - [ ] machine learning?
+  - [x] DBC file conversion
+  - [ ] Matplotlib?
+  - [ ] Machine learning?
 - [x] Make Public
-  - [x] Finish Documentation
+  - [x] Finish ReadMe
     - [x] Summary
     - [x] Installation
     - [x] Usage
     - [x] Modules
       - [x] Module Templates
     - [x] Spell and fact check
-  - [x] test on windows
-  - [x] create release
+  - [x] Test on windows
+  - [x] Create release
 - [ ] Windows interface setup
 - [ ] Make GUI front end for raspberry pi screen and infotainment uses
 - [ ] Submodules for DBC files?
-- [ ] module for creating new DBC files?
+- [ ] Module for creating new DBC files?
 
 # Summary
-CARpwnd is a colaborative project that is intended to be a framework for building automotive hacking tools.  There is a particular focus on the CAN bus but in theory anything can be added to it due to its dynamic loading of modules.  Modules can be added or removed at will allowing for very small package sizes to be installed on micro computers aslong as python is installed.  A majority of the base modules utilize [Python-Can](https://github.com/hardbyte/python-can) and hence are OS agnostic.  Windows and Linux specific modules are also included and will the user will be flaged if they are trying to run an incompatible module.  Contributions are welcomed and anything that is of value and isnt already included will be added to the main project.  
+CARpwnd is a colaborative project that is intended to be a framework for building automotive hacking tools.  There is a particular focus on the CAN bus but in theory anything can be added to it due to its dynamic loading of modules.  Modules can be added or removed at will allowing for very small package sizes to be installed on micro computers aslong as python is installed.  A majority of the base modules utilize [Python-Can](https://github.com/hardbyte/python-can) and hence are OS agnostic.  Windows and Linux specific modules are also included and will the user will be flaged if they are trying to run an incompatible module.  Contributions are welcomed and anything that is of value and isnt already included will be added to the next release.  
 # Installation
 Installation is easy and the only required dependencies currently are python-can, cantools, click and canutils.
 
