@@ -21,13 +21,16 @@ def cli():pass
 @cli.command()
 @click.argument("input-file", type=click.Path())
 @click.argument("output-file")
-@click.option("-b", "--filter-by")
-@click.option("-f", "--filter-for")
-@click.option("-v", "--verbose", is_flag=True)
+@click.option("-b", "--filter-by", help='filter by arbitration ID')
+@click.option("-f", "--filter-for", help='filter by name')
+@click.option("-v", "--verbose", help='prints to stdout', is_flag=True)
 
 def tofile(input_file, output_file, filter_by, filter_for, verbose):
     '''
-    Converts input file to a different format and writes to output
+    'convert tofile'  Converts input file to a different format and writes to output
+
+    input-file      the database input file                               
+    output-file     the output for the converted database file
     '''
     db = loadfile(input_file, filter_by, filter_for)
     if verbose == True: print(db)
@@ -35,10 +38,10 @@ def tofile(input_file, output_file, filter_by, filter_for, verbose):
     print(f"Database written to {output_file}")
     pass
 
-@cli.command()
+#@cli.command()
 
-def tobus():
-    '''
-    Converts input file and sends it through the injector module
-    '''
-    pass
+#def tobus():
+#    '''
+#    'convert tobus'  Converts input file and sends it through the injector module
+#    '''
+#    pass

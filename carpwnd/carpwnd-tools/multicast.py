@@ -14,9 +14,9 @@ def cli():pass
 
 def send(channel, bus_type, port):
     """
-        'multicast send' Command will send can data over udp multicast
+        'multicast send' sends can frames over udp multicast             
 
-        'port'  Network port to use
+        port        Network port to use
     """
     with UdpMulticastBus(port=port) as udpbus, \
                          can.ThreadSafeBus(interface=bus_type, channel=channel) as hwrbus:
@@ -44,9 +44,9 @@ def send(channel, bus_type, port):
 
 def recieve(channel, bus_type, port, output_file):
     """
-        'multicast recieve' Command will recieve over udp multicast and write to file or terminal
+        'multicast recieve' recieves frames over udp multicast and writes to file or terminal
 
-        'port'  Network port to use
+        port       Network port to use
     """
     #file_name = f"{output_file}.{extension_type}"
     with UdpMulticastBus(port=port) as udpbus:

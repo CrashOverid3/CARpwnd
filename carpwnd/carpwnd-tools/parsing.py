@@ -10,4 +10,3 @@ def inject_one():
 @cli.command()
 def inject_two():
     click.echo("parse parse")
-

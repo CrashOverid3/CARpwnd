@@ -7,7 +7,6 @@ import os
 def run_cmd(cmd):
     subprocess.run(cmd.split(), stdout=subprocess.DEVNULL)
 
-
 @click.group()
 def cli():pass
 
@@ -17,9 +16,10 @@ def cli():pass
 @click.argument("channel")
 def setup(can_type, channel, bit_rate):
     '''
-    'can-type' The python-can compatible interface to setup
+    'interface setup' Setup ICSIM style virtual socketcan interface
 
-    'channel' The channel to set the interface as
+    can-type      The python-can compatible interface to setup           
+    channel       The name of the channel to set the interface as
     '''
     if (os_version := platform.system()) == "Linux":
         if can_type == "vcan":

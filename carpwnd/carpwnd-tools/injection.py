@@ -11,20 +11,19 @@ def cli():pass
 @click.option("-p", "--period", help="periodicaly send frame. period specified in seconds", type=click.FLOAT)
 @click.option("-d", "--duration", help="how many time to send frame. ignored if no value set for period", type=click.INT)
 @click.argument("bus-type",type=click.Choice(can.VALID_INTERFACES,case_sensitive=True))
-@click.option("--channel")
+@click.argument("channel")
 @click.argument("arbitration-id")
 @click.argument("data", nargs=-1)
 def inject_frame(period, duration,bus_type,channel, arbitration_id, data):
     """ 
-        inject_frame will inject a can frame using the interface type selected 
+        'injection inject_frame' will inject a can frame using the interface type selected 
 
         ex. 
             socketcan 0xC0FFEE 0 25 0 1 3 1 4 1 
         
         bus-type        the type of CAN interface you want to use to send frames
-        channel         the interface name 
+        channel         the python-can interface name to inject frames into
         arbitration-id  the id to use when sending data on frame 
-
     """
     bus = can.ThreadSafeBus(interface=bus_type, channel=channel)
     try:
@@ -46,12 +45,13 @@ def inject_frame(period, duration,bus_type,channel, arbitration_id, data):
 @click.argument("channel")
 @click.argument("input-file", type=click.Path())
 
-
 def replay_dump(bus_type, input_file, channel):
     """
-    replay_dump will inject all of the packets on a dump file into the interface
+    'injection replay_dump' will inject all of the packets on a dump file into the interface
 
-
+    bus-type        the type of CAN interface you want to use to send frames
+    channel         the python-can interface name to inject frames into     
+    input-file      the file that contains a capture module dump
     """
     bus = can.ThreadSafeBus(interface=bus_type, channel=channel)
     input_file = open(input_file).readlines()
