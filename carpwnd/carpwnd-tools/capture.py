@@ -28,7 +28,7 @@ def store(extension_type,verbose,bus_type,channel,output_file):
     bus = can.ThreadSafeBus(interface=bus_type, channel=channel) 
     write_logger = can.Logger(file_name) if extension_type else open(file_name, "w")
     if verbose:
-        print_logger = can.Logger()
+        print_logger = can.Printer()
     while True:
         try:
             frame = bus.recv()
@@ -42,7 +42,7 @@ def store(extension_type,verbose,bus_type,channel,output_file):
                 frame_len = frame.dlc
                 
                 data = ' '.join(format(x, '02x') for x in frame.data)
-                frame_str = f"({time}) {channel} {id} [{frame_len}] {data}"
+                frame_str = f"({time}) {channel} {id} [{frame_len}] {data} \n"
                 write_logger.write(frame_str)                
         except click.exceptions.Abort:
             file_size = can.io.canutils.CanutilsLogWriter.file_size(write_logger)

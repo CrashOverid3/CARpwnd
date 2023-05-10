@@ -57,10 +57,9 @@ def replay_dump(bus_type, input_file, channel):
     input_file = open(input_file).readlines()
     for i in input_file:
         packets = []
-        data = i.split(':')
-        packets.append(data[1][1:18])
-        packets.append('0x'+data[2][2:5])
-        packets.append(data[3][7:30])
+        #packets.append(data[1][1:18])
+        packets.append(i[36:40])
+        packets.append(i[1:1])
         array = bytearray.fromhex(packets[2])
         try:
             print(f"Sending {packets[1]} {packets[2]}")
