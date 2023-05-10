@@ -14,9 +14,9 @@ def cli():pass
 @click.argument("channel")
 @click.argument("arbitration-id")
 @click.argument("data", nargs=-1)
-def inject_frame(period, duration,bus_type,channel, arbitration_id, data):
+def inject(period, duration,bus_type,channel, arbitration_id, data):
     """ 
-        'injection inject_frame' will inject a can frame using the interface type selected 
+        'injection inject' will inject a can frame using the interface type selected 
 
         ex. 
             socketcan 0xC0FFEE 0 25 0 1 3 1 4 1 
@@ -45,9 +45,9 @@ def inject_frame(period, duration,bus_type,channel, arbitration_id, data):
 @click.argument("channel")
 @click.argument("input-file", type=click.Path())
 
-def replay_dump(bus_type, input_file, channel):
+def replay(bus_type, input_file, channel):
     """
-    'injection replay_dump' will inject all of the packets on a dump file into the interface
+    'injection replay' will inject all of the packets on a dump file into the interface
 
     bus-type        the type of CAN interface you want to use to send frames
     channel         the python-can interface name to inject frames into     
@@ -58,12 +58,16 @@ def replay_dump(bus_type, input_file, channel):
     for i in input_file:
         packets = []
         #packets.append(data[1][1:18])
-        packets.append(i[36:40])
-        packets.append(i[1:1])
-        array = bytearray.fromhex(packets[2])
+        packets.append(i[35:40])
+        if i[39:40] == " ":
+            packets.append(i[44:])
+        else:
+            packets.append(i[45:])
+        #print(packets[1])
+        array = bytearray.fromhex(packets[1])
         try:
-            print(f"Sending {packets[1]} {packets[2]}")
-            msg = can.Message(arbitration_id=int(packets[1],16),data=array, check=True, is_extended_id=False)
+            print(f"Sending {packets[0]} {packets[1]}")
+            msg = can.Message(arbitration_id=int(packets[0],16),data=array, check=True, is_extended_id=False)
             bus.send(msg)
         except ValueError:
             print('error')
