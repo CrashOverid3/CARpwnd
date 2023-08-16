@@ -1,6 +1,7 @@
 import click
 import datetime
 import can 
+import keyboard
 
 FILE_EXTENSION = ["asc","blf","csv","db","log","txt"]
 
@@ -28,7 +29,7 @@ def store(extension_type,verbose,bus_type,channel,output_file):
     bus = can.ThreadSafeBus(interface=bus_type, channel=channel) 
     write_logger = can.Logger(file_name) if extension_type else open(file_name, "w")
     if verbose:
-        print_logger = can.Logger()
+        print_logger = can.Printer()
     while True:
         try:
             frame = bus.recv()
